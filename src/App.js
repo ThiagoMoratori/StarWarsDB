@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
     BrowserRouter,
-    Route
+    Route,
+    Link
 } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -20,71 +21,145 @@ import axios from 'axios';
 injectTapEventPlugin();
 
 class App extends Component {
-  componentWillMount(){
+    componentWillMount(){
       this.state = {
           drawerOpen: true,
           mobile: false,
-          peopleList: null
+          moviesList: null,
+          peopleList: null,
+          speciesList: null,
+          vehiclesList: null,
+          planetsList: null
+
       }
       //console.log(this.state.peopleList);
       if(window.innerWidth < 800) this.setState({mobile:true, drawerOpen:false})
       else this.setState({mobile:false, drawerOpen:true}) ;
-  }
+    }
 
-  componentDidMount(){
-
-
-      axios.get('http://swapi.co/api/people/')
+    componentDidMount(){
+        axios.get('http://swapi.co/api/films/')
           .then(function (response) {
-              this.setState({peopleList: response.data.results});
+              this.setState({moviesList: response.data.results});
           }.bind(this))
           .catch(function (error) {
               console.log(error);
           });
 
-  }
+        axios.get('http://swapi.co/api/people/')
+            .then(function (response) {
+                this.setState({peopleList: response.data.results});
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
 
-  onButtonClick(){
+        axios.get('http://swapi.co/api/species/')
+            .then(function (response) {
+                this.setState({speciesList: response.data.results});
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get('http://swapi.co/api/vehicles/')
+            .then(function (response) {
+                this.setState({vehiclesList: response.data.results});
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get('http://swapi.co/api/planets/')
+            .then(function (response) {
+                this.setState({planetsList: response.data.results});
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
+    onButtonClick(){
       if(this.state.drawerOpen) this.setState({drawerOpen:false})
       else this.setState({drawerOpen:true})
-  }
+    }
 
-  handleClose = () => this.setState({drawerOpen: false});
+    handleClose = () => {
+        if(window.innerWidth < 800)this.setState({drawerOpen: false});
+    }
 
-  MyListPeople (props) {
-      //console.log("Dentro do MyListPeople");
-      //console.log(this.state.peopleList);
-      if(this.state.peopleList != null)
-          return (<ListPeople people={this.state.peopleList}/>);
+    MyListMovies (props) {
+      //console.log("Dentro do MyListMovies");
+      //console.log(this.state.moviesList);
+      if(this.state.moviesList != null)
+          return (<ListMovies movie={this.state.moviesList} mobile={this.state.mobile}/>);
       else return null;
-  }
+    }
 
-  render() {
-    return (
-        <MuiThemeProvider>
-            <BrowserRouter>
-                <div>
-                    <AppBar title="Star Wars Wiki" onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
-                    <Drawer
-                        width={200}
-                        open={this.state.drawerOpen}
-                        containerStyle={{marginTop:65}}
-                    >
+    MyListPeople (props) {
+        //console.log("Dentro do MyListPeople");
+        //console.log(this.state.peopleList);
+        if(this.state.peopleList != null)
+            return (<ListPeople people={this.state.peopleList} mobile={this.state.mobile}/>);
+        else return null;
+    }
 
-                        <MenuItem onTouchTap={this.handleClose}>Filmes</MenuItem>
-                        <MenuItem onTouchTap={this.handleClose}>Personagens</MenuItem>
-                        <MenuItem onTouchTap={this.handleClose}>Veículos</MenuItem>
-                        <MenuItem onTouchTap={this.handleClose}>Espécies</MenuItem>
-                        <MenuItem onTouchTap={this.handleClose}>Planetas</MenuItem>
-                    </Drawer>
-                    <div style={{backgroundImage:  `url('../assets/starwars.jgp')`}}>
-                        <Route exact path="/" render={this.MyListPeople.bind(this)}/>
+    MyListSpecies (props) {
+        //console.log("Dentro do MyListPeople");
+        //console.log(this.state.peopleList);
+        if(this.state.speciesList != null)
+            return (<ListSpecies specie={this.state.speciesList} mobile={this.state.mobile}/>);
+        else return null;
+    }
+
+    MyListVehicles (props) {
+        //console.log("Dentro do MyListVehicles");
+        //console.log(this.state.peopleList);
+        if(this.state.vehiclesList != null)
+            return (<ListVehicles vehicle={this.state.vehiclesList} mobile={this.state.mobile}/>);
+        else return null;
+    }
+
+    MyListPlanets (props) {
+        //console.log("Dentro do MyListPlanets");
+        //console.log(this.state.peopleList);
+        if(this.state.planetsList != null)
+            return (<ListPlanets planet={this.state.planetsList} mobile={this.state.mobile}/>);
+        else return null;
+    }
+
+    render() {
+        return (
+            <MuiThemeProvider>
+                <BrowserRouter>
+                    <div className="Content">
+                        <AppBar title="Star Wars Wiki" onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
+                        <Drawer
+                            width={200}
+                            open={this.state.drawerOpen}
+                            containerStyle={{marginTop:65}}
+                        >
+
+                            <Link to="/movies" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Filmes</MenuItem></Link>
+                            <Link to="/people" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Personagens</MenuItem></Link>
+                            <Link to="/vehicles" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Veículos</MenuItem></Link>
+                            <Link to="/species" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Espécies</MenuItem></Link>
+                            <Link to="/planets" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Planetas</MenuItem></Link>
+                        </Drawer>
+                        <div>
+                            <Route exact path="/" render={() => <div> <h1> Welcome to Star Wars Wiki</h1></div>}/>
+                            <Route path="/movies" render={this.MyListMovies.bind(this)}/>
+                            <Route path="/people" render={this.MyListPeople.bind(this)}/>
+                            <Route path="/vehicles" render={this.MyListVehicles.bind(this)}/>
+                            <Route path="/species" render={this.MyListSpecies.bind(this)}/>
+                            <Route path="/planets" render={this.MyListPlanets.bind(this)}/>
+                        </div>
                     </div>
-                </div>
-            </BrowserRouter>
-        </MuiThemeProvider>
-    );
-  }
+                </BrowserRouter>
+            </MuiThemeProvider>
+        );
+    }
 }
 
 

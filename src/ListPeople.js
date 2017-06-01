@@ -9,52 +9,66 @@ import ContentSend from 'material-ui/svg-icons/content/send';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
+import {GridList, GridTile} from 'material-ui/GridList';
+import IconButton from 'material-ui/IconButton';
+import Subheader from 'material-ui/Subheader';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+
+const styles = {
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    },
+    gridList: {
+        marginLeft: 250,
+        width: 1500,
+        height: 800,
+        overflowY: 'auto',
+    },
+};
 
 class ListPeople extends React.Component{
 
     componentWillMount(){
-        this.state = {people: this.props.people};
-        console.log("Estou aqui");
-        console.log(this.props.people);
-        console.log("Passei do props");
+        this.state = {
+            people: this.props.people,
+            mobile: this.props.mobile
+        };
+        console.log(this.props.people)
+    }
+
+    showGrid(){
+        return <GridList
+                cellHeight={250}
+                cols={4}
+                style={styles.gridList}
+            >
+                {
+                    this.state.people.map((person)=> {
+                        return <GridTile key={person.name.toString()}
+                             title={person.name}
+                             subtitle={<span>by <b>{person.name}</b></span>}
+                             actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                    })
+                }
+            </GridList>
     }
 
     showList(){
-        const list = this.state.people.map((person)=> {
-            return <ListItem key={person.name.toString()} primaryText={person.name} />})
-        return list;
+        return <List> {this.state.people.map((person) => {
+            return <ListItem key={person.name.toString()} primaryText={person.name}/>
+            })} </List>
     }
 
     render(){
         return(
-            <div>
-                <List>
-                    {this.showList()}
-                </List>
+            <div align="center">
+                {this.state.mobile ? this.showList() : this.showGrid()}
             </div>
         )
     }
 
-    // render(){
-    //     return(
-    //         <div>
-    //             <List>
-    //                 <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-    //                 <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
-    //                 <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
-    //                 <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
-    //                 <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-    //             </List>
-    //             <Divider />
-    //             <List>
-    //                 <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
-    //                 <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
-    //                 <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
-    //                 <ListItem primaryText="Follow up" rightIcon={<ActionInfo />} />
-    //             </List>
-    //         </div>
-    //     )
-    // }
 }
 
 export default ListPeople;
