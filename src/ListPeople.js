@@ -11,26 +11,50 @@ import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class ListPeople extends React.Component{
+
+    componentWillMount(){
+        this.state = {people: this.props.people};
+        console.log("Estou aqui");
+        console.log(this.props.people);
+        console.log("Passei do props");
+    }
+
+    showList(){
+        const list = this.state.people.map((person)=> {
+            return <ListItem key={person.name.toString()} primaryText={person.name} />})
+        return list;
+    }
+
     render(){
         return(
             <div>
-                <List style={{marginTop:75, marginLeft: 160}}>
-                    <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-                    <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
-                    <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
-                    <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
-                    <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
-                </List>
-                <Divider />
-                <List style={{marginTop:75, marginLeft: 160}}>
-                    <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
-                    <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
-                    <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
-                    <ListItem primaryText="Follow up" rightIcon={<ActionInfo />} />
+                <List>
+                    {this.showList()}
                 </List>
             </div>
         )
     }
+
+    // render(){
+    //     return(
+    //         <div>
+    //             <List>
+    //                 <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
+    //                 <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
+    //                 <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
+    //                 <ListItem primaryText="Drafts" leftIcon={<ContentDrafts />} />
+    //                 <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
+    //             </List>
+    //             <Divider />
+    //             <List>
+    //                 <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
+    //                 <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
+    //                 <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
+    //                 <ListItem primaryText="Follow up" rightIcon={<ActionInfo />} />
+    //             </List>
+    //         </div>
+    //     )
+    // }
 }
 
 export default ListPeople;

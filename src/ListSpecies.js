@@ -10,11 +10,11 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
-class LListPlanets extends React.Component{
+class ListSpecies extends React.Component{
     render(){
         return(
             <div>
-                <List style={{marginTop:75, marginLeft: 160}}>
+                <List>
                     <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
                     <ListItem primaryText="Starred" leftIcon={<ActionGrade />} />
                     <ListItem primaryText="Sent mail" leftIcon={<ContentSend />} />
@@ -22,7 +22,7 @@ class LListPlanets extends React.Component{
                     <ListItem primaryText="Inbox" leftIcon={<ContentInbox />} />
                 </List>
                 <Divider />
-                <List style={{marginTop:75, marginLeft: 160}}>
+                <List>
                     <ListItem primaryText="All mail" rightIcon={<ActionInfo />} />
                     <ListItem primaryText="Trash" rightIcon={<ActionInfo />} />
                     <ListItem primaryText="Spam" rightIcon={<ActionInfo />} />
@@ -33,4 +33,4 @@ class LListPlanets extends React.Component{
     }
 }
 
-export default ListPlanets;
+export default ListSpecies;
