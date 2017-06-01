@@ -22,7 +22,7 @@ const styles = {
     },
     gridList: {
         marginLeft: 250,
-        width: 1500,
+        width: 1200,
         height: 800,
         overflowY: 'auto',
     },
@@ -36,6 +36,18 @@ class ListPlanets extends React.Component{
         };
     }
 
+    componentWillReceiveProps(nextProps){
+        //console.log("Next Props")
+        //console.log(nextProps)
+        if(nextProps!=null)
+        {
+            var newArray = this.state.planet.slice();
+            nextProps.planet.forEach((planet) => newArray.push(planet));
+            this.setState({planet: newArray})
+            //console.log(this.state.planet)
+        }
+    }
+    
     showGrid(){
         return <GridList
             cellHeight={250}

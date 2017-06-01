@@ -22,7 +22,7 @@ const styles = {
     },
     gridList: {
         marginLeft: 250,
-        width: 1500,
+        width: 1200,
         height: 800,
         overflowY: 'auto',
     },
@@ -36,6 +36,18 @@ class ListVehicles extends React.Component{
         };
     }
 
+    componentWillReceiveProps(nextProps){
+        //console.log("Next Props")
+        //console.log(nextProps)
+        if(nextProps!=null)
+        {
+            var newArray = this.state.vehicle.slice();
+            nextProps.vehicle.forEach((vehicle) => newArray.push(vehicle));
+            this.setState({vehicle: newArray})
+            //console.log(this.state.vehicle)
+        }
+    }
+    
     showGrid(){
         return <GridList
             cellHeight={250}

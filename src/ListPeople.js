@@ -22,7 +22,7 @@ const styles = {
     },
     gridList: {
         marginLeft: 250,
-        width: 1500,
+        width: 1200,
         height: 800,
         overflowY: 'auto',
     },
@@ -36,6 +36,18 @@ class ListPeople extends React.Component{
             mobile: this.props.mobile
         };
         console.log(this.props.people)
+    }
+
+    componentWillReceiveProps(nextProps){
+        //console.log("Next Props")
+        //console.log(nextProps)
+        if(nextProps!=null)
+        {
+            var newArray = this.state.people.slice();
+            nextProps.people.forEach((person) => newArray.push(person));
+            this.setState({people: newArray})
+            //console.log(this.state.people)
+        }
     }
 
     showGrid(){

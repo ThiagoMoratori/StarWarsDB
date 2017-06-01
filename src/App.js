@@ -20,17 +20,18 @@ import axios from 'axios';
 
 injectTapEventPlugin();
 
+var arrPeople = [];
+
 class App extends Component {
     componentWillMount(){
       this.state = {
           drawerOpen: true,
           mobile: false,
           moviesList: null,
-          peopleList: null,
+          peopleList: [],
           speciesList: null,
           vehiclesList: null,
           planetsList: null
-
       }
       //console.log(this.state.peopleList);
       if(window.innerWidth < 800) this.setState({mobile:true, drawerOpen:false})
@@ -46,37 +47,54 @@ class App extends Component {
               console.log(error);
           });
 
-        axios.get('http://swapi.co/api/people/')
-            .then(function (response) {
-                this.setState({peopleList: response.data.results});
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
+        for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
+            axios.get('http://swapi.co/api/people/?page=' + iterator1)
+                .then(function (response) {
+                    console.log("antes")
+                    console.log(arrPeople)
+                    arrPeople = arrPeople.slice();
+                    console.log(arrPeople)
+                    response.data.results.forEach((person) => arrPeople.push(person));
 
-        axios.get('http://swapi.co/api/species/')
-            .then(function (response) {
-                this.setState({speciesList: response.data.results});
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
 
-        axios.get('http://swapi.co/api/vehicles/')
-            .then(function (response) {
-                this.setState({vehiclesList: response.data.results});
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
+                }.bind(this))
+                .catch(function (error) {
+                    console.log(error);
+                });
 
-        axios.get('http://swapi.co/api/planets/')
-            .then(function (response) {
-                this.setState({planetsList: response.data.results});
-            }.bind(this))
-            .catch(function (error) {
-                console.log(error);
-            });
+        }
+
+        this.setState({peopleList: arrPeople});
+        
+        for(var iterator2 = 1; iterator2 <= 4; iterator2++) {
+            axios.get('http://swapi.co/api/species/?page=' + iterator2)
+                .then(function (response) {
+                    this.setState({speciesList: response.data.results});
+                }.bind(this))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        for(var iterator3 = 1; iterator3 <= 4; iterator3++) {
+            axios.get('http://swapi.co/api/vehicles/?page=' + iterator3)
+                .then(function (response) {
+                    this.setState({vehiclesList: response.data.results});
+                }.bind(this))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        for(var iterator4 = 1; iterator4 <= 7; iterator4++) {
+            axios.get('http://swapi.co/api/planets/?page=' + iterator4)
+                .then(function (response) {
+                    this.setState({planetsList: response.data.results});
+                }.bind(this))
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
 
     }
 

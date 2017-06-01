@@ -22,7 +22,7 @@ const styles = {
     },
     gridList: {
         marginLeft: 250,
-        width: 1500,
+        width: 1200,
         height: 800,
         overflowY: 'auto',
     },
@@ -36,6 +36,18 @@ class ListSpecies extends React.Component{
         };
     }
 
+    componentWillReceiveProps(nextProps){
+        //console.log("Next Props")
+        //console.log(nextProps)
+        if(nextProps!=null)
+        {
+            var newArray = this.state.specie.slice();
+            nextProps.specie.forEach((specie) => newArray.push(specie));
+            this.setState({specie: newArray})
+            //console.log(this.state.specie)
+        }
+    }
+    
     showGrid(){
         return <GridList
             cellHeight={250}

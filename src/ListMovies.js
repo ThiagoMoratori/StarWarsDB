@@ -22,7 +22,7 @@ const styles = {
     },
     gridList: {
         marginLeft: 250,
-        width: 1500,
+        width: 1200,
         height: 800,
         overflowY: 'auto',
     },
@@ -35,6 +35,18 @@ class ListMovies extends React.Component{
             movie: this.props.movie,
             mobile: this.props.mobile
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+        //console.log("Next Props")
+        //console.log(nextProps)
+        if(nextProps!=null)
+        {
+            var newArray = this.state.movie.slice();
+            nextProps.movie.forEach((movie) => newArray.push(movie));
+            this.setState({movie: newArray})
+            //console.log(this.state.movie)
+        }
     }
 
     showGrid(){
