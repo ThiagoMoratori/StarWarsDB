@@ -10,6 +10,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import logo from './logo.svg';
 import './App.css';
+import {List, ListItem} from 'material-ui/List';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import ListPeople from './ListPeople';
 import ListMovies from  './ListMovies';
@@ -20,7 +21,7 @@ import axios from 'axios';
 
 injectTapEventPlugin();
 
-var arrPeople = [];
+var arrPeople;
 
 class App extends Component {
     componentWillMount(){
@@ -34,7 +35,7 @@ class App extends Component {
           planetsList: null
       }
       //console.log(this.state.peopleList);
-      if(window.innerWidth < 800) this.setState({mobile:true, drawerOpen:false})
+      if(window.innerWidth < 740) this.setState({mobile:true, drawerOpen:false})
       else this.setState({mobile:false, drawerOpen:true}) ;
     }
 
@@ -50,11 +51,12 @@ class App extends Component {
         for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
             axios.get('http://swapi.co/api/people/?page=' + iterator1)
                 .then(function (response) {
-                    console.log("antes")
-                    console.log(arrPeople)
-                    arrPeople = arrPeople.slice();
-                    console.log(arrPeople)
-                    response.data.results.forEach((person) => arrPeople.push(person));
+                    //console.log("antes")
+                    //console.log(arrPeople)
+                    //arrPeople = arrPeople.slice();
+                    //console.log(arrPeople)
+                    //response.data.results.forEach((person) => arrPeople.push(person));
+                    this.setState({peopleList: response.data.results});
 
 
                 }.bind(this))
@@ -64,8 +66,9 @@ class App extends Component {
 
         }
 
-        this.setState({peopleList: arrPeople});
-        
+        //console.log(arrPeople)
+        //this.setState({peopleList: arrPeople});
+
         for(var iterator2 = 1; iterator2 <= 4; iterator2++) {
             axios.get('http://swapi.co/api/species/?page=' + iterator2)
                 .then(function (response) {
@@ -151,7 +154,8 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <BrowserRouter>
-                    <div className="Content">
+                    <div className="Content-back">
+
                         <AppBar title="Star Wars Wiki" onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
                         <Drawer
                             width={200}
@@ -166,13 +170,14 @@ class App extends Component {
                             <Link to="/planets" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Planetas</MenuItem></Link>
                         </Drawer>
                         <div>
-                            <Route exact path="/" render={() => <div> <h1> Welcome to Star Wars Wiki</h1></div>}/>
+                            <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
                             <Route path="/movies" render={this.MyListMovies.bind(this)}/>
                             <Route path="/people" render={this.MyListPeople.bind(this)}/>
                             <Route path="/vehicles" render={this.MyListVehicles.bind(this)}/>
                             <Route path="/species" render={this.MyListSpecies.bind(this)}/>
                             <Route path="/planets" render={this.MyListPlanets.bind(this)}/>
                         </div>
+
                     </div>
                 </BrowserRouter>
             </MuiThemeProvider>
