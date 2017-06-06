@@ -20,10 +20,11 @@ import ListVehicles from './ListVehicles';
 import ShowMovie from './ShowMovie';
 import SearchBar from './SearchBar';
 import axios from 'axios';
+import ShowCharacter from "./ShowCharacter";
 
 injectTapEventPlugin();
 
-var arrPeople;
+var arrPeople = [];
 
 class App extends Component {
     componentWillMount(){
@@ -53,14 +54,14 @@ class App extends Component {
 
         for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
             axios.get('http://swapi.co/api/people/?page=' + iterator1)
-                .then(function (response) {
+                .then(function(response) {
                     //console.log("antes")
                     //console.log(arrPeople)
                     //arrPeople = arrPeople.slice();
                     //console.log(arrPeople)
                     //response.data.results.forEach((person) => arrPeople.push(person));
+                    //console.log(arrPeople)
                     this.setState({peopleList: response.data.results});
-
 
                 }.bind(this))
                 .catch(function (error) {
@@ -116,7 +117,7 @@ class App extends Component {
     MyListMovies (props) {
       //console.log("Dentro do MyListMovies");
       //console.log(this.state.moviesList);
-      if(this.state.moviesList != null)
+      if(this.state.moviesList.length > 0)
           return (<ListMovies movie={this.state.moviesList} mobile={this.state.mobile}/>);
       else return null;
     }
@@ -124,7 +125,7 @@ class App extends Component {
     MyListPeople (props) {
         //console.log("Dentro do MyListPeople");
         //console.log(this.state.peopleList);
-        if(this.state.peopleList != null)
+        if(this.state.peopleList.length > 0)
             return (<ListPeople people={this.state.peopleList} mobile={this.state.mobile}/>);
         else return null;
     }
@@ -132,7 +133,7 @@ class App extends Component {
     MyListSpecies (props) {
         //console.log("Dentro do MyListPeople");
         //console.log(this.state.peopleList);
-        if(this.state.speciesList != null)
+        if(this.state.speciesList.length > 0)
             return (<ListSpecies specie={this.state.speciesList} mobile={this.state.mobile}/>);
         else return null;
     }
@@ -140,7 +141,7 @@ class App extends Component {
     MyListVehicles (props) {
         //console.log("Dentro do MyListVehicles");
         //console.log(this.state.peopleList);
-        if(this.state.vehiclesList != null)
+        if(this.state.vehiclesList.length > 0)
             return (<ListVehicles vehicle={this.state.vehiclesList} mobile={this.state.mobile}/>);
         else return null;
     }
@@ -148,15 +149,27 @@ class App extends Component {
     MyListPlanets (props) {
         //console.log("Dentro do MyListPlanets");
         //console.log(this.state.peopleList);
-        if(this.state.planetsList != null)
+        if(this.state.planetsList.length > 0)
             return (<ListPlanets planet={this.state.planetsList} mobile={this.state.mobile}/>);
         else return null;
     }
 
     MoviesDetail (props){
-        if(this.state.moviesList != null)
-            return (<ShowMovie movie={this.state.moviesList} mobile={this.state.mobile}/>);
+        if(this.state.moviesList.length > 0)
+            return (<ShowMovie movie={this.state.moviesList} mobile={this.state.mobile} people={this.state.peopleList}/>);
         else return null;
+    }
+
+    CharactersDetail (props){
+        if(this.state.peopleList.length > 0) {
+            console.log("Entrei no not null");
+            console.log(this.state.peopleList);
+            console.log("Antes do return");
+            return (<ShowCharacter movie={this.state.moviesList} mobile={this.state.mobile} people={this.state.peopleList}/>);
+        }else {
+            console.log("Entrei no null");
+            return null;
+        }
     }
 
     render() {
@@ -183,6 +196,7 @@ class App extends Component {
                                 <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
                                 <Route path="/movies/:id/" render={this.MoviesDetail.bind(this)}/>
                                 <Route exact path="/movies" render={this.MyListMovies.bind(this)}/>
+                                <Route path="/people/:id/" render={this.CharactersDetail.bind(this)}/>
                                 <Route exact path="/people" render={this.MyListPeople.bind(this)}/>
                                 <Route exact path="/vehicles" render={this.MyListVehicles.bind(this)}/>
                                 <Route exact path="/species" render={this.MyListSpecies.bind(this)}/>

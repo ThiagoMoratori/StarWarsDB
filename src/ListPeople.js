@@ -3,16 +3,13 @@
  */
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
-import ActionInfo from 'material-ui/svg-icons/action/info';
 import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Link} from 'react-router-dom';
+
+var url;
+var page;
 
 const styles = {
     root: {
@@ -36,6 +33,9 @@ class ListPeople extends React.Component{
             mobile: this.props.mobile
         };
         console.log(this.props.people)
+        //get current url to get which movie we want
+        url = window.location.href;
+        page = url.substring(27);
     }
 
     componentWillReceiveProps(nextProps){
@@ -58,10 +58,12 @@ class ListPeople extends React.Component{
             >
                 {
                     this.state.people.map((person)=> {
-                        return <GridTile key={person.name.toString()}
-                             title={person.name}
-                             subtitle={<span>by <b>{person.name}</b></span>}
-                             actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                        return <Link to={"/people/" + person.url.substring(27)}>
+                                <GridTile key={person.name.toString()}
+                                 title={person.name}
+                                 subtitle={<span>by <b>{person.name}</b></span>}
+                                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                        </Link>
                     })
                 }
             </GridList>
@@ -75,7 +77,7 @@ class ListPeople extends React.Component{
 
     render(){
         return(
-            <div align="center">
+            <div>
                 {this.state.mobile ? this.showList() : this.showGrid()}
             </div>
         )
