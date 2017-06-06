@@ -13,6 +13,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import {Link} from 'react-router-dom';
 
 const styles = {
     root: {
@@ -21,8 +22,8 @@ const styles = {
         justifyContent: 'space-around',
     },
     gridList: {
-        marginLeft: 250,
-        width: 1200,
+        marginLeft: 50,
+        width: 1000,
         height: 800,
         overflowY: 'auto',
     },
@@ -37,18 +38,6 @@ class ListMovies extends React.Component{
         };
     }
 
-    componentWillReceiveProps(nextProps){
-        //console.log("Next Props")
-        //console.log(nextProps)
-        if(nextProps!=null)
-        {
-            var newArray = this.state.movie.slice();
-            nextProps.movie.forEach((movie) => newArray.push(movie));
-            this.setState({movie: newArray})
-            //console.log(this.state.movie)
-        }
-    }
-
     showGrid(){
         return <GridList
             cellHeight={250}
@@ -57,10 +46,9 @@ class ListMovies extends React.Component{
         >
             {
                 this.state.movie.map((movies)=> {
-                    return <GridTile key={movies.title.toString()}
+                    return <Link to={"/movies/" + movies.episode_id +"/"}><GridTile key={movies.title.toString()}
                                      title={movies.title}
-                                     subtitle={<span>by <b>{movies.title}</b></span>}
-                                     actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                                     subtitle={<span>by <b>{movies.title}</b></span>} actionIcon={<IconButton><StarBorder color="white" /></IconButton>} /></Link>
                 })
             }
         </GridList>

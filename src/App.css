@@ -19,6 +19,16 @@
   font-size: large;
 }
 
+.Paper{
+  height: auto;
+  width: 1200px;
+  margin-left: 400px;
+  margin-right: 400px;
+  margin-top: 100px;
+  textAlign: 'center';
+  display: inline-block;
+}
+
 .Content-back{
   background: url(./assets/starwarsbg.jpg) center fixed;
   background-repeat: no-repeat;
@@ -34,7 +44,23 @@
 .Container{
     background-color: azure;
     margin-top: 65px;
-    margin-left: 50%;
+}
+
+.ToolbarStyle{
+  margin-left: 120px;
+  margin-right: 140px;
+  margin-top: 10px;
+  height: 50%;
+  width: 85%;
+}
+
+.SearchBarStyle{
+  margin-left: 170px;
+  margin-right: 170px;
+}
+
+.Group{
+  width: 100px;
 }
 
 @keyframes App-logo-spin {

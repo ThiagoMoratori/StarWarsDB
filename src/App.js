@@ -8,7 +8,7 @@ import {
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import logo from './logo.svg';
+import Paper from 'material-ui/Paper';
 import './App.css';
 import {List, ListItem} from 'material-ui/List';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -17,6 +17,8 @@ import ListMovies from  './ListMovies';
 import ListPlanets from './ListPlanets';
 import ListSpecies from './ListSpecies';
 import ListVehicles from './ListVehicles';
+import ShowMovie from './ShowMovie';
+import SearchBar from './SearchBar';
 import axios from 'axios';
 
 injectTapEventPlugin();
@@ -43,6 +45,7 @@ class App extends Component {
         axios.get('http://swapi.co/api/films/')
           .then(function (response) {
               this.setState({moviesList: response.data.results});
+              console.log(this.state.moviesList)
           }.bind(this))
           .catch(function (error) {
               console.log(error);
@@ -150,13 +153,19 @@ class App extends Component {
         else return null;
     }
 
+    MoviesDetail (props){
+        if(this.state.moviesList != null)
+            return (<ShowMovie movie={this.state.moviesList} mobile={this.state.mobile}/>);
+        else return null;
+    }
+
     render() {
         return (
             <MuiThemeProvider>
                 <BrowserRouter>
                     <div className="Content-back">
 
-                        <AppBar title="Star Wars Wiki" onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
+                        <AppBar title={<SearchBar className="SearchBarStyle"/>} onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
                         <Drawer
                             width={200}
                             open={this.state.drawerOpen}
@@ -170,12 +179,16 @@ class App extends Component {
                             <Link to="/planets" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Planetas</MenuItem></Link>
                         </Drawer>
                         <div>
-                            <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
-                            <Route path="/movies" render={this.MyListMovies.bind(this)}/>
-                            <Route path="/people" render={this.MyListPeople.bind(this)}/>
-                            <Route path="/vehicles" render={this.MyListVehicles.bind(this)}/>
-                            <Route path="/species" render={this.MyListSpecies.bind(this)}/>
-                            <Route path="/planets" render={this.MyListPlanets.bind(this)}/>
+                            <Paper className="Paper" zDepth={5}>
+                                <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
+                                <Route path="/movies/:id/" render={this.MoviesDetail.bind(this)}/>
+                                <Route exact path="/movies" render={this.MyListMovies.bind(this)}/>
+                                <Route exact path="/people" render={this.MyListPeople.bind(this)}/>
+                                <Route exact path="/vehicles" render={this.MyListVehicles.bind(this)}/>
+                                <Route exact path="/species" render={this.MyListSpecies.bind(this)}/>
+                                <Route exact path="/planets" render={this.MyListPlanets.bind(this)}/>
+                                <Route path="/search"/>
+                            </Paper>
                         </div>
 
                     </div>
