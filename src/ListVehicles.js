@@ -39,7 +39,6 @@ class ListVehicles extends React.Component{
                 this.state.vehicle.map((vehicle)=> {
                     return <GridTile key={vehicle.name.toString()}
                                      title={vehicle.name}
-                                     subtitle={<span>by <b>{vehicle.name}</b></span>}
                                      actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
                 })
             }

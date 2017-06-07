@@ -60,10 +60,12 @@ class App extends Component {
                 .then(function(response) {
                     arrPeople = arrPeople.slice();
                     response.data.results.forEach((person) => arrPeople.push(person));
-                    this.setState({nextState:[arrPeople.length,0,0,0]})
+                    this.setState({nextState:[arrPeople.length,0,0,0]});
                     //console.log(this.state.nextState)
-                    if(this.state.nextState[0] == 87){
+                    if(this.state.nextState[0] === 87){
                         this.setState({peopleList: arrPeople});
+                        localStorage.setItem("characters", JSON.stringify(arrPeople));
+                        console.log(JSON.parse(localStorage.getItem("characters")))
                     }
 
                 }.bind(this))
@@ -78,9 +80,9 @@ class App extends Component {
                 .then(function (response) {
                     arrSpecies = arrSpecies.slice();
                     response.data.results.forEach((person) => arrSpecies.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,0,0]})
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,0,0]});
                     //console.log(this.state.nextState)
-                    if(this.state.nextState[1] == 37){
+                    if(this.state.nextState[1] === 37){
                         this.setState({speciesList: arrSpecies});
                     }
                 }.bind(this))
@@ -94,9 +96,9 @@ class App extends Component {
                 .then(function (response) {
                     arrVehicles = arrVehicles.slice();
                     response.data.results.forEach((person) => arrVehicles.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,0]})
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,0]});
                     //console.log(this.state.nextState)
-                    if(this.state.nextState[2] == 39){
+                    if(this.state.nextState[2] === 39){
                         this.setState({vehiclesList: arrVehicles});
                     }
                 }.bind(this))
@@ -110,9 +112,9 @@ class App extends Component {
                 .then(function (response) {
                     arrPlanets = arrPlanets.slice();
                     response.data.results.forEach((person) => arrPlanets.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,arrPlanets.length]})
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,arrPlanets.length]});
                     //console.log(this.state.nextState)
-                    if(this.state.nextState[3] == 61){
+                    if(this.state.nextState[3] === 61){
                         this.setState({planetsList: arrPlanets});
                     }
                 }.bind(this))
@@ -180,12 +182,12 @@ class App extends Component {
 
     CharactersDetail (props){
         if(this.state.peopleList.length > 0) {
-            console.log("Entrei no not null");
-            console.log(this.state.peopleList);
-            console.log("Antes do return");
+            //console.log("Entrei no not null");
+            //console.log(this.state.peopleList);
+            //console.log("Antes do return");
             return (<ShowCharacter movie={this.state.moviesList} mobile={this.state.mobile} people={this.state.peopleList}/>);
         }else {
-            console.log("Entrei no null");
+            //console.log("Entrei no null");
             return null;
         }
     }
@@ -196,11 +198,11 @@ class App extends Component {
                 <BrowserRouter>
                     <div className="Content-back">
 
-                        <AppBar title={<SearchBar className="SearchBarStyle"/>} onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555'}}/>
+                        <AppBar title={<SearchBar className="SearchBarStyle"/>} onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555', position:"fixed"}}/>
                         <Drawer
                             width={200}
                             open={this.state.drawerOpen}
-                            containerStyle={{marginTop:65}}
+                            containerStyle={{marginTop:64}}
                         >
 
                             <Link to="/movies" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Filmes</MenuItem></Link>
@@ -209,19 +211,19 @@ class App extends Component {
                             <Link to="/species" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Espécies</MenuItem></Link>
                             <Link to="/planets" style={{ textDecoration: 'none' }}><MenuItem onTouchTap={this.handleClose}>Planetas</MenuItem></Link>
                         </Drawer>
-                        <div>
-                            <Paper className="Paper" zDepth={5}>
-                                <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
-                                <Route path="/movies/:id/" render={this.MoviesDetail.bind(this)}/>
-                                <Route exact path="/movies" render={this.MyListMovies.bind(this)}/>
-                                <Route path="/people/:id/" render={this.CharactersDetail.bind(this)}/>
-                                <Route exact path="/people" render={this.MyListPeople.bind(this)}/>
-                                <Route exact path="/vehicles" render={this.MyListVehicles.bind(this)}/>
-                                <Route exact path="/species" render={this.MyListSpecies.bind(this)}/>
-                                <Route exact path="/planets" render={this.MyListPlanets.bind(this)}/>
-                                <Route path="/search"/>
-                            </Paper>
-                        </div>
+
+                        <Paper className="Paper" zDepth={5}>
+                            <Route exact path="/" render={() => <div> <List className="container"> <ListItem> <h1> Welcome to Star Wars Wiki</h1></ListItem></List></div>}/>
+                            <Route path="/movies/:id/" render={this.MoviesDetail.bind(this)}/>
+                            <Route exact path="/movies" render={this.MyListMovies.bind(this)}/>
+                            <Route path="/people/:id/" render={this.CharactersDetail.bind(this)}/>
+                            <Route exact path="/people" render={this.MyListPeople.bind(this)}/>
+                            <Route exact path="/vehicles" render={this.MyListVehicles.bind(this)}/>
+                            <Route exact path="/species" render={this.MyListSpecies.bind(this)}/>
+                            <Route exact path="/planets" render={this.MyListPlanets.bind(this)}/>
+                            <Route path="/search"/>
+                        </Paper>
+
 
                     </div>
                 </BrowserRouter>

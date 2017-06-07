@@ -39,9 +39,10 @@ class ListMovies extends React.Component{
         >
             {
                 this.state.movie.map((movies)=> {
-                    return <Link to={"/movies/" + movies.episode_id +"/"}><GridTile key={movies.title.toString()}
-                                     title={movies.title}
-                                     subtitle={<span>by <b>{movies.title}</b></span>} actionIcon={<IconButton><StarBorder color="white" /></IconButton>} /></Link>
+                    return <GridTile key={movies.title.toString()}
+                                     title={<Link to={"/movies/" + movies.episode_id +"/"} style={{textDecoration: 'none'}}>{movies.title}</Link>}
+                                     subtitle={<span>by <b>{movies.director}</b></span>}
+                                     actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
                 })
             }
         </GridList>

@@ -8,9 +8,6 @@ import IconButton from 'material-ui/IconButton';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import {Link} from 'react-router-dom';
 
-var url;
-var page;
-
 const styles = {
     root: {
         display: 'flex',
@@ -32,10 +29,7 @@ class ListPeople extends React.Component{
             people: this.props.people,
             mobile: this.props.mobile
         };
-        console.log(this.props.people)
-        //get current url to get which movie we want
-        url = window.location.href;
-        page = url.substring(27);
+        //console.log(this.props.people)
     }
 
     showGrid(){
@@ -46,12 +40,10 @@ class ListPeople extends React.Component{
             >
                 {
                     this.state.people.map((person)=> {
-                        return <Link to={"/people/" + person.url.substring(27)}>
-                                <GridTile key={person.name.toString()}
-                                 title={person.name}
-                                 subtitle={<span>by <b>{person.name}</b></span>}
+                        return <GridTile key={person.name.toString()}
+                                 title={<Link to={"/people/" + person.url.substring(27)} style={{textDecoration: 'none'}}>{person.name}</Link>}
                                  actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
-                        </Link>
+
                     })
                 }
             </GridList>

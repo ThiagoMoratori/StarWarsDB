@@ -21,12 +21,12 @@ class ShowCharacter extends React.Component{
             char: this.props.char
         };
 
-        console.log(this.state.char);
+        //console.log(this.state.char);
         //get the right movie and set to an Object
         page = window.location.href.substring(29);
-        console.log(page);
+        //console.log(page);
         this.state.people.map((character)=> {
-            console.log(character.url.substring(27))
+            //console.log(character.url.substring(27))
             if(character.url.substring(27) === page) {
                 characterInfo = character;
             }
@@ -38,11 +38,10 @@ class ShowCharacter extends React.Component{
 
         //return details from the movie
         return this.state.movie.map((movie)=> {
-            console.log(movie)
-            return( <Link to={"/movies/" + movie.url.substring(26)}><ListItem
+            if(characterInfo.films.indexOf(movie.url) > -1){return( <Link to={"/movies/" + movie.url.substring(26)}><ListItem
                 key={movie.title.toString()}
                 primaryText={movie.title}
-            /></Link>)})
+            /></Link>)}})
 
 
     }

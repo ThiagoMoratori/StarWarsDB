@@ -33,13 +33,13 @@ class ShowMovie extends React.Component{
     ShowCharactersList(){
 
         //return details from the movie
-        return this.state.people.map((character)=> {
-            console.log(character)
-            return( <Link to={"/people/" + character.url.substring(27)} style={{ textDecoration: 'none' }}><ListItem
+        return this.state.people.map((character,i)=> {
+            //console.log(movieInfo.characters.indexOf(character.url))
+            if(movieInfo.characters.indexOf(character.url) > -1){return( <Link to={"/people/" + character.url.substring(27)} style={{ textDecoration: 'none' }}><ListItem
             key={character.name.toString()}
             primaryText={character.name}
             onClick={<ShowCharacter char="Teste"/>}
-            /></Link>)})
+            /></Link>)}})
 
 
     }
@@ -47,16 +47,18 @@ class ShowMovie extends React.Component{
     render(){
 
         return(
-            <List>
-                <ListItem key={movieInfo.title} primaryText={"> Title: " + movieInfo.title}/>
-                <ListItem key={movieInfo.episode_id} primaryText={"> Episode: " + movieInfo.episode_id}/>
-                <ListItem key={movieInfo.director} primaryText={"> Director: " + movieInfo.director}/>
-                <ListItem key={movieInfo.producer} primaryText={"> Producer: " + movieInfo.producer}/>
-                <ListItem key={movieInfo.release_date} primaryText={"> Release Date: " + movieInfo.release_date}/>
-                <ListItem key={"crawl"+page} primaryText={"> Opening Crawl: " + movieInfo.opening_crawl}/>
-                <ListItem primaryText="> Characters from the movie:" />
-                {this.ShowCharactersList()}
-            </List>
+            <div>
+                <List>
+                    <ListItem key={movieInfo.title} primaryText={"> Title: " + movieInfo.title}/>
+                    <ListItem key={movieInfo.episode_id} primaryText={"> Episode: " + movieInfo.episode_id}/>
+                    <ListItem key={movieInfo.director} primaryText={"> Director: " + movieInfo.director}/>
+                    <ListItem key={movieInfo.producer} primaryText={"> Producer: " + movieInfo.producer}/>
+                    <ListItem key={movieInfo.release_date} primaryText={"> Release Date: " + movieInfo.release_date}/>
+                    <ListItem key={"crawl"+page} primaryText={"> Opening Crawl: " + movieInfo.opening_crawl}/>
+                    <ListItem primaryText="> Characters from the movie:" />
+                    {this.ShowCharactersList()}
+                </List>
+            </div>
         )
     }
 }

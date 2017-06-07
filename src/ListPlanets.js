@@ -39,7 +39,6 @@ class ListPlanets extends React.Component{
                 this.state.planet.map((planet)=> {
                     return <GridTile key={planet.name.toString()}
                                      title={planet.name}
-                                     subtitle={<span>by <b>{planet.name}</b></span>}
                                      actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
                 })
             }

@@ -39,7 +39,6 @@ class ListSpecies extends React.Component{
                 this.state.specie.map((specie)=> {
                     return <GridTile key={specie.name.toString()}
                                      title={specie.name}
-                                     subtitle={<span>by <b>{specie.name}</b></span>}
                                      actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
                 })
             }
