@@ -28,18 +28,6 @@ class ListVehicles extends React.Component{
             mobile: this.props.mobile
         };
     }
-
-    componentWillReceiveProps(nextProps){
-        //console.log("Next Props")
-        //console.log(nextProps)
-        if(nextProps!=null)
-        {
-            var newArray = this.state.vehicle.slice();
-            nextProps.vehicle.forEach((vehicle) => newArray.push(vehicle));
-            this.setState({vehicle: newArray})
-            //console.log(this.state.vehicle)
-        }
-    }
     
     showGrid(){
         return <GridList

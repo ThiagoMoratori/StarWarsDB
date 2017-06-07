@@ -25,17 +25,21 @@ import ShowCharacter from "./ShowCharacter";
 injectTapEventPlugin();
 
 var arrPeople = [];
+var arrSpecies = [];
+var arrVehicles = [];
+var arrPlanets = [];
 
 class App extends Component {
     componentWillMount(){
       this.state = {
           drawerOpen: true,
           mobile: false,
-          moviesList: null,
+          moviesList: [],
           peopleList: [],
-          speciesList: null,
-          vehiclesList: null,
-          planetsList: null
+          speciesList: [],
+          vehiclesList: [],
+          planetsList: [],
+          nextState: []
       }
       //console.log(this.state.peopleList);
       if(window.innerWidth < 740) this.setState({mobile:true, drawerOpen:false})
@@ -46,7 +50,6 @@ class App extends Component {
         axios.get('http://swapi.co/api/films/')
           .then(function (response) {
               this.setState({moviesList: response.data.results});
-              console.log(this.state.moviesList)
           }.bind(this))
           .catch(function (error) {
               console.log(error);
@@ -55,13 +58,13 @@ class App extends Component {
         for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
             axios.get('http://swapi.co/api/people/?page=' + iterator1)
                 .then(function(response) {
-                    //console.log("antes")
-                    //console.log(arrPeople)
-                    //arrPeople = arrPeople.slice();
-                    //console.log(arrPeople)
-                    //response.data.results.forEach((person) => arrPeople.push(person));
-                    //console.log(arrPeople)
-                    this.setState({peopleList: response.data.results});
+                    arrPeople = arrPeople.slice();
+                    response.data.results.forEach((person) => arrPeople.push(person));
+                    this.setState({nextState:[arrPeople.length,0,0,0]})
+                    //console.log(this.state.nextState)
+                    if(this.state.nextState[0] == 87){
+                        this.setState({peopleList: arrPeople});
+                    }
 
                 }.bind(this))
                 .catch(function (error) {
@@ -70,13 +73,16 @@ class App extends Component {
 
         }
 
-        //console.log(arrPeople)
-        //this.setState({peopleList: arrPeople});
-
         for(var iterator2 = 1; iterator2 <= 4; iterator2++) {
             axios.get('http://swapi.co/api/species/?page=' + iterator2)
                 .then(function (response) {
-                    this.setState({speciesList: response.data.results});
+                    arrSpecies = arrSpecies.slice();
+                    response.data.results.forEach((person) => arrSpecies.push(person));
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,0,0]})
+                    //console.log(this.state.nextState)
+                    if(this.state.nextState[1] == 37){
+                        this.setState({speciesList: arrSpecies});
+                    }
                 }.bind(this))
                 .catch(function (error) {
                     console.log(error);
@@ -86,7 +92,13 @@ class App extends Component {
         for(var iterator3 = 1; iterator3 <= 4; iterator3++) {
             axios.get('http://swapi.co/api/vehicles/?page=' + iterator3)
                 .then(function (response) {
-                    this.setState({vehiclesList: response.data.results});
+                    arrVehicles = arrVehicles.slice();
+                    response.data.results.forEach((person) => arrVehicles.push(person));
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,0]})
+                    //console.log(this.state.nextState)
+                    if(this.state.nextState[2] == 39){
+                        this.setState({vehiclesList: arrVehicles});
+                    }
                 }.bind(this))
                 .catch(function (error) {
                     console.log(error);
@@ -96,7 +108,13 @@ class App extends Component {
         for(var iterator4 = 1; iterator4 <= 7; iterator4++) {
             axios.get('http://swapi.co/api/planets/?page=' + iterator4)
                 .then(function (response) {
-                    this.setState({planetsList: response.data.results});
+                    arrPlanets = arrPlanets.slice();
+                    response.data.results.forEach((person) => arrPlanets.push(person));
+                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,arrPlanets.length]})
+                    //console.log(this.state.nextState)
+                    if(this.state.nextState[3] == 61){
+                        this.setState({planetsList: arrPlanets});
+                    }
                 }.bind(this))
                 .catch(function (error) {
                     console.log(error);

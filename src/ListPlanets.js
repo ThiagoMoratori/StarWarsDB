@@ -28,18 +28,6 @@ class ListPlanets extends React.Component{
             mobile: this.props.mobile
         };
     }
-
-    componentWillReceiveProps(nextProps){
-        //console.log("Next Props")
-        //console.log(nextProps)
-        if(nextProps!=null)
-        {
-            var newArray = this.state.planet.slice();
-            nextProps.planet.forEach((planet) => newArray.push(planet));
-            this.setState({planet: newArray})
-            //console.log(this.state.planet)
-        }
-    }
     
     showGrid(){
         return <GridList

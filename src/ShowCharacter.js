@@ -39,7 +39,7 @@ class ShowCharacter extends React.Component{
         //return details from the movie
         return this.state.movie.map((movie)=> {
             console.log(movie)
-            return( <Link to={"/movies/" + movie.url.substring(27)}><ListItem
+            return( <Link to={"/movies/" + movie.url.substring(26)}><ListItem
                 key={movie.title.toString()}
                 primaryText={movie.title}
             /></Link>)})

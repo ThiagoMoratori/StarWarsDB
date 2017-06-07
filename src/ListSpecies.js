@@ -28,18 +28,6 @@ class ListSpecies extends React.Component{
             mobile: this.props.mobile
         };
     }
-
-    componentWillReceiveProps(nextProps){
-        //console.log("Next Props")
-        //console.log(nextProps)
-        if(nextProps!=null)
-        {
-            var newArray = this.state.specie.slice();
-            nextProps.specie.forEach((specie) => newArray.push(specie));
-            this.setState({specie: newArray})
-            //console.log(this.state.specie)
-        }
-    }
     
     showGrid(){
         return <GridList

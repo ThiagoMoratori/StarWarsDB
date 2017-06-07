@@ -38,18 +38,6 @@ class ListPeople extends React.Component{
         page = url.substring(27);
     }
 
-    componentWillReceiveProps(nextProps){
-        //console.log("Next Props")
-        //console.log(nextProps)
-        if(nextProps!=null)
-        {
-            var newArray = this.state.people.slice();
-            nextProps.people.forEach((person) => newArray.push(person));
-            this.setState({people: newArray})
-            //console.log(this.state.people)
-        }
-    }
-
     showGrid(){
         return <GridList
                 cellHeight={250}
