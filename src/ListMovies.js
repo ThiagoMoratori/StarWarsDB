@@ -69,7 +69,7 @@ class ListMovies extends React.Component{
 
     showList(){
         return <List>{this.state.movie.map((movie)=> {
-            return <ListItem key={movie.title.toString()} primaryText={movie.title} rightIcon={<IconButton onTouchTap={()=>this.setFav(movie)}>{this.getFav(movie)}</IconButton>} />
+            return <ListItem key={movie.title.toString()} primaryText={movie.title} rightIconButton={<IconButton onTouchTap={()=>this.setFav(movie)}>{this.getFav(movie)}</IconButton>} />
             })} </List>
     }
 

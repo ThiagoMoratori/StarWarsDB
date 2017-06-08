@@ -66,7 +66,7 @@ class ListVehicles extends React.Component{
     
     showList(){
         return <List>{this.state.vehicle.map> this.state.vehicle.map((vehicle)=> {
-            return <ListItem key={vehicle.name.toString()} primaryText={vehicle.name} rightIcon={<IconButton onTouchTap={()=>this.setFav(vehicle)}>{this.getFav(vehicle)}</IconButton>}/>})}
+            return <ListItem key={vehicle.name.toString()} primaryText={vehicle.name} rightIconButton={<IconButton onTouchTap={()=>this.setFav(vehicle)}>{this.getFav(vehicle)}</IconButton>}/>})}
             </List>
     }
 

@@ -7,6 +7,8 @@
 import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import {Link} from 'react-router-dom';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 var characterInfo;
 var page;
@@ -18,7 +20,8 @@ class ShowCharacter extends React.Component{
             movie: this.props.movie,
             mobile: this.props.mobile,
             people: this.props.people,
-            char: this.props.char
+            char: this.props.char,
+            render: 0
         };
 
         //console.log(this.state.char);
@@ -34,11 +37,31 @@ class ShowCharacter extends React.Component{
 
     }
 
+    setFav(key){
+        if(localStorage.getItem(key.name) !== null){
+            localStorage.removeItem(key.name)
+            this.setState({render: 1})
+        }else{
+            localStorage.setItem(key.name, JSON.stringify(key))
+            this.setState({render: 0})
+        }
+    }
+
+    getFav(key){
+        //console.log()
+        if(localStorage.getItem(key.name) !== null){
+            return <StarBorder color="yellow"/>
+        }else{
+            return <StarBorder color="grey"/>
+        }
+    }
+
     ShowMoviesList(){
 
         //return details from the movie
         return this.state.movie.map((movie)=> {
-            if(characterInfo.films.indexOf(movie.url) > -1){return( <Link to={"/movies/" + movie.url.substring(26)}><ListItem
+            console.log(movie.episode_id)
+            if(characterInfo.films.indexOf(movie.url) > -1){return( <Link to={"/movies/" + movie.episode_id + "/"}><ListItem
                 key={movie.title.toString()}
                 primaryText={movie.title}
             /></Link>)}})
@@ -50,7 +73,7 @@ class ShowCharacter extends React.Component{
 
         return(
             <List>
-                <ListItem key={characterInfo.name} primaryText={"> Name: " + characterInfo.name}/>
+                <ListItem key={characterInfo.name} primaryText={"> Name: " + characterInfo.name} rightIconButton={<IconButton onTouchTap={()=>this.setFav(characterInfo)}>{this.getFav(characterInfo)}</IconButton>}/>
                 <ListItem key={characterInfo.height} primaryText={"> Height: " + characterInfo.height}/>
                 <ListItem key={characterInfo.mass} primaryText={"> Mass: " + characterInfo.mass}/>
                 <ListItem key={characterInfo.hair_color} primaryText={"> Hair Color: " + characterInfo.hair_color}/>

@@ -5,6 +5,8 @@ import React, { Component } from 'react';
 import {List, ListItem} from 'material-ui/List';
 import {Link} from 'react-router-dom';
 import ShowCharacter from './ShowCharacter';
+import IconButton from 'material-ui/IconButton';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
 var url;
 var page;
@@ -30,6 +32,26 @@ class ShowMovie extends React.Component{
         })
     }
 
+    setFav(key){
+        if(localStorage.getItem(key.title) !== null){
+            localStorage.removeItem(key.title)
+            this.setState({render: 1})
+        }else{
+            localStorage.setItem(key.title, JSON.stringify(key))
+            this.setState({render: 0})
+        }
+    }
+
+    getFav(key){
+        //console.log()
+        if(localStorage.getItem(key.title) !== null){
+            return <StarBorder color="yellow"/>
+        }else{
+            return <StarBorder color="grey"/>
+        }
+    }
+
+
     ShowCharactersList(){
 
         //return details from the movie
@@ -48,7 +70,7 @@ class ShowMovie extends React.Component{
         return(
             <div>
                 <List>
-                    <ListItem key={movieInfo.title} primaryText={"> Title: " + movieInfo.title}/>
+                    <ListItem key={movieInfo.title} primaryText={"> Title: " + movieInfo.title} rightIconButton={<IconButton onTouchTap={()=>this.setFav(movieInfo)}>{this.getFav(movieInfo)}</IconButton>}/>
                     <ListItem key={movieInfo.episode_id} primaryText={"> Episode: " + movieInfo.episode_id}/>
                     <ListItem key={movieInfo.director} primaryText={"> Director: " + movieInfo.director}/>
                     <ListItem key={movieInfo.producer} primaryText={"> Producer: " + movieInfo.producer}/>

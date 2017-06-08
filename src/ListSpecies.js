@@ -66,7 +66,7 @@ class ListSpecies extends React.Component{
     
     showList(){
         return <List> {this.state.specie.map((specie)=> {
-            return <ListItem key={specie.name.toString()} primaryText={specie.name} rightIcon={<IconButton onTouchTap={()=>this.setFav(specie)}>{this.getFav(specie)}</IconButton>}/>})}
+            return <ListItem key={specie.name.toString()} primaryText={specie.name} rightIconButton={<IconButton onTouchTap={()=>this.setFav(specie)}>{this.getFav(specie)}</IconButton>}/>})}
             </List>
     }
 

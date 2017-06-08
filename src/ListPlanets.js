@@ -66,7 +66,7 @@ class ListPlanets extends React.Component{
 
     showList(){
         return <List>{ this.state.planet.map((planet)=> {
-            return <ListItem key={planet.name.toString()} primaryText={planet.name} rightIcon={<IconButton onTouchTap={()=>this.setFav(planet)}>{this.getFav(planet)}</IconButton>}/>})}
+            return <ListItem key={planet.name.toString()} primaryText={planet.name} rightIconButton={<IconButton onTouchTap={()=>this.setFav(planet)}>{this.getFav(planet)}</IconButton>}/>})}
             </List>
     }
 

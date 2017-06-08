@@ -70,7 +70,7 @@ class ListPeople extends React.Component{
 
     showList(){
         return <List> {this.state.people.map((person) => {
-            return <ListItem key={person.name.toString()} primaryText={person.name} rightIcon={<IconButton onTouchTap={()=>this.setFav(person)}>{this.getFav(person)}</IconButton>}/>
+            return <ListItem key={person.name.toString()} primaryText={person.name} rightIconButton={<IconButton onTouchTap={()=>this.setFav(person)}>{this.getFav(person)}</IconButton>}/>
             })} </List>
     }
 
