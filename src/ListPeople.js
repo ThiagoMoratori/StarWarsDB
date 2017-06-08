@@ -17,8 +17,7 @@ const styles = {
     gridList: {
         marginLeft: 50,
         width: 1000,
-        height: 800,
-        overflowY: 'auto',
+        height: 800
     },
 };
 
@@ -27,9 +26,29 @@ class ListPeople extends React.Component{
     componentWillMount(){
         this.state = {
             people: this.props.people,
-            mobile: this.props.mobile
+            mobile: this.props.mobile,
+            render: 0
         };
         //console.log(this.props.people)
+    }
+
+    setFav(key){
+        if(localStorage.getItem(key.name) !== null){
+            localStorage.removeItem(key.name)
+            this.setState({render: 1})
+        }else{
+            localStorage.setItem(key.name, JSON.stringify(key))
+            this.setState({render: 0})
+        }
+    }
+
+    getFav(key){
+        //console.log()
+        if(localStorage.getItem(key.name) !== null){
+            return <StarBorder color="yellow"/>
+        }else{
+            return <StarBorder color="grey"/>
+        }
     }
 
     showGrid(){
@@ -42,7 +61,7 @@ class ListPeople extends React.Component{
                     this.state.people.map((person)=> {
                         return <GridTile key={person.name.toString()}
                                  title={<Link to={"/people/" + person.url.substring(27)} style={{textDecoration: 'none'}}>{person.name}</Link>}
-                                 actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                                 actionIcon={<IconButton onTouchTap={()=>this.setFav(person)}>{this.getFav(person)}</IconButton>} />
 
                     })
                 }
@@ -51,7 +70,7 @@ class ListPeople extends React.Component{
 
     showList(){
         return <List> {this.state.people.map((person) => {
-            return <ListItem key={person.name.toString()} primaryText={person.name}/>
+            return <ListItem key={person.name.toString()} primaryText={person.name} rightIcon={<IconButton onTouchTap={()=>this.setFav(person)}>{this.getFav(person)}</IconButton>}/>
             })} </List>
     }
 

@@ -31,6 +31,25 @@ class ListMovies extends React.Component{
         };
     }
 
+    setFav(key){
+        if(localStorage.getItem(key.title) !== null){
+            localStorage.removeItem(key.title)
+            this.setState({render: 1})
+        }else{
+            localStorage.setItem(key.title, JSON.stringify(key))
+            this.setState({render: 0})
+        }
+    }
+
+    getFav(key){
+        //console.log()
+        if(localStorage.getItem(key.title) !== null){
+            return <StarBorder color="yellow"/>
+        }else{
+            return <StarBorder color="grey"/>
+        }
+    }
+
     showGrid(){
         return <GridList
             cellHeight={250}
@@ -42,7 +61,7 @@ class ListMovies extends React.Component{
                     return <GridTile key={movies.title.toString()}
                                      title={<Link to={"/movies/" + movies.episode_id +"/"} style={{textDecoration: 'none'}}>{movies.title}</Link>}
                                      subtitle={<span>by <b>{movies.director}</b></span>}
-                                     actionIcon={<IconButton><StarBorder color="white" /></IconButton>} />
+                                     actionIcon={<IconButton onTouchTap={()=>this.setFav(movies)}>{this.getFav(movies)}</IconButton>} />
                 })
             }
         </GridList>
@@ -50,7 +69,7 @@ class ListMovies extends React.Component{
 
     showList(){
         return <List>{this.state.movie.map((movie)=> {
-            return <ListItem key={movie.title.toString()} primaryText={movie.title} />
+            return <ListItem key={movie.title.toString()} primaryText={movie.title} rightIcon={<IconButton onTouchTap={()=>this.setFav(movie)}>{this.getFav(movie)}</IconButton>} />
             })} </List>
     }
 

@@ -47,81 +47,87 @@ class App extends Component {
     }
 
     componentDidMount(){
-        axios.get('http://swapi.co/api/films/')
-          .then(function (response) {
-              this.setState({moviesList: response.data.results});
-          }.bind(this))
-          .catch(function (error) {
-              console.log(error);
-          });
+        if(localStorage.getItem("movies") === null)
+            axios.get('http://swapi.co/api/films/')
+              .then(function (response) {
+                  this.setState({moviesList: response.data.results});
+                  localStorage.setItem("movies", JSON.stringify(this.state.moviesList));
+              }.bind(this))
+              .catch(function (error) {
+                  console.log(error);
+              });
+        if(localStorage.getItem("characters") === null)
+            for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
+                axios.get('http://swapi.co/api/people/?page=' + iterator1)
+                    .then(function(response) {
+                        arrPeople = arrPeople.slice();
+                        response.data.results.forEach((person) => arrPeople.push(person));
+                        this.setState({nextState:[arrPeople.length,0,0,0]});
+                        //console.log(this.state.nextState)
+                        if(this.state.nextState[0] === 87){
+                            this.setState({peopleList: arrPeople});
+                            localStorage.setItem("characters", JSON.stringify(arrPeople));
+                            //console.log(JSON.parse(localStorage.getItem("characters")))
+                        }
 
-        for(var iterator1 = 1; iterator1 <= 9; iterator1++) {
-            axios.get('http://swapi.co/api/people/?page=' + iterator1)
-                .then(function(response) {
-                    arrPeople = arrPeople.slice();
-                    response.data.results.forEach((person) => arrPeople.push(person));
-                    this.setState({nextState:[arrPeople.length,0,0,0]});
-                    //console.log(this.state.nextState)
-                    if(this.state.nextState[0] === 87){
-                        this.setState({peopleList: arrPeople});
-                        localStorage.setItem("characters", JSON.stringify(arrPeople));
-                        console.log(JSON.parse(localStorage.getItem("characters")))
-                    }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
 
-                }.bind(this))
-                .catch(function (error) {
-                    console.log(error);
-                });
+        if(localStorage.getItem("species") === null)
+            for(var iterator2 = 1; iterator2 <= 4; iterator2++) {
+                axios.get('http://swapi.co/api/species/?page=' + iterator2)
+                    .then(function (response) {
+                        arrSpecies = arrSpecies.slice();
+                        response.data.results.forEach((person) => arrSpecies.push(person));
+                        this.setState({nextState:[arrPeople.length,arrSpecies.length,0,0]});
+                        //console.log(this.state.nextState)
+                        if(this.state.nextState[1] === 37){
+                            this.setState({speciesList: arrSpecies});
+                            localStorage.setItem("species", JSON.stringify(arrSpecies));
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        if(localStorage.getItem("vehicles") === null)
+            for(var iterator3 = 1; iterator3 <= 4; iterator3++) {
+                axios.get('http://swapi.co/api/vehicles/?page=' + iterator3)
+                    .then(function (response) {
+                        arrVehicles = arrVehicles.slice();
+                        response.data.results.forEach((person) => arrVehicles.push(person));
+                        this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,0]});
+                        //console.log(this.state.nextState)
+                        if(this.state.nextState[2] === 39){
+                            this.setState({vehiclesList: arrVehicles});
+                            localStorage.setItem("vehicles", JSON.stringify(arrVehicles));
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
 
-        }
-
-        for(var iterator2 = 1; iterator2 <= 4; iterator2++) {
-            axios.get('http://swapi.co/api/species/?page=' + iterator2)
-                .then(function (response) {
-                    arrSpecies = arrSpecies.slice();
-                    response.data.results.forEach((person) => arrSpecies.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,0,0]});
-                    //console.log(this.state.nextState)
-                    if(this.state.nextState[1] === 37){
-                        this.setState({speciesList: arrSpecies});
-                    }
-                }.bind(this))
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-
-        for(var iterator3 = 1; iterator3 <= 4; iterator3++) {
-            axios.get('http://swapi.co/api/vehicles/?page=' + iterator3)
-                .then(function (response) {
-                    arrVehicles = arrVehicles.slice();
-                    response.data.results.forEach((person) => arrVehicles.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,0]});
-                    //console.log(this.state.nextState)
-                    if(this.state.nextState[2] === 39){
-                        this.setState({vehiclesList: arrVehicles});
-                    }
-                }.bind(this))
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-
-        for(var iterator4 = 1; iterator4 <= 7; iterator4++) {
-            axios.get('http://swapi.co/api/planets/?page=' + iterator4)
-                .then(function (response) {
-                    arrPlanets = arrPlanets.slice();
-                    response.data.results.forEach((person) => arrPlanets.push(person));
-                    this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,arrPlanets.length]});
-                    //console.log(this.state.nextState)
-                    if(this.state.nextState[3] === 61){
-                        this.setState({planetsList: arrPlanets});
-                    }
-                }.bind(this))
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
+        if(localStorage.getItem("planets") === null)
+            for(var iterator4 = 1; iterator4 <= 7; iterator4++) {
+                axios.get('http://swapi.co/api/planets/?page=' + iterator4)
+                    .then(function (response) {
+                        arrPlanets = arrPlanets.slice();
+                        response.data.results.forEach((person) => arrPlanets.push(person));
+                        this.setState({nextState:[arrPeople.length,arrSpecies.length,arrVehicles.length,arrPlanets.length]});
+                        //console.log(this.state.nextState)
+                        if(this.state.nextState[3] === 61){
+                            this.setState({planetsList: arrPlanets});
+                            localStorage.setItem("planets", JSON.stringify(arrPlanets));
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
 
     }
 
@@ -137,57 +143,53 @@ class App extends Component {
     MyListMovies (props) {
       //console.log("Dentro do MyListMovies");
       //console.log(this.state.moviesList);
-      if(this.state.moviesList.length > 0)
-          return (<ListMovies movie={this.state.moviesList} mobile={this.state.mobile}/>);
+      if(localStorage.getItem("movies") !== null)
+          return (<ListMovies movie={JSON.parse(localStorage.getItem("movies"))} mobile={this.state.mobile}/>);
       else return null;
     }
 
     MyListPeople (props) {
         //console.log("Dentro do MyListPeople");
         //console.log(this.state.peopleList);
-        if(this.state.peopleList.length > 0)
-            return (<ListPeople people={this.state.peopleList} mobile={this.state.mobile}/>);
+        if(localStorage.getItem("characters") !== null)
+            return (<ListPeople people={JSON.parse(localStorage.getItem("characters"))} mobile={this.state.mobile}/>);
         else return null;
     }
 
     MyListSpecies (props) {
         //console.log("Dentro do MyListPeople");
         //console.log(this.state.peopleList);
-        if(this.state.speciesList.length > 0)
-            return (<ListSpecies specie={this.state.speciesList} mobile={this.state.mobile}/>);
+        if(localStorage.getItem("species") !== null)
+            return (<ListSpecies specie={JSON.parse(localStorage.getItem("species"))} mobile={this.state.mobile}/>);
         else return null;
     }
 
     MyListVehicles (props) {
         //console.log("Dentro do MyListVehicles");
         //console.log(this.state.peopleList);
-        if(this.state.vehiclesList.length > 0)
-            return (<ListVehicles vehicle={this.state.vehiclesList} mobile={this.state.mobile}/>);
+        if(localStorage.getItem("vehicles") !== null)
+            return (<ListVehicles vehicle={JSON.parse(localStorage.getItem("vehicles"))} mobile={this.state.mobile}/>);
         else return null;
     }
 
     MyListPlanets (props) {
         //console.log("Dentro do MyListPlanets");
         //console.log(this.state.peopleList);
-        if(this.state.planetsList.length > 0)
-            return (<ListPlanets planet={this.state.planetsList} mobile={this.state.mobile}/>);
+        if(localStorage.getItem("planets") !== null)
+            return (<ListPlanets planet={JSON.parse(localStorage.getItem("planets"))} mobile={this.state.mobile}/>);
         else return null;
     }
 
     MoviesDetail (props){
-        if(this.state.moviesList.length > 0)
-            return (<ShowMovie movie={this.state.moviesList} mobile={this.state.mobile} people={this.state.peopleList}/>);
+        if(localStorage.getItem("movies") !== null)
+            return (<ShowMovie movie={JSON.parse(localStorage.getItem("movies"))} mobile={this.state.mobile} people={JSON.parse(localStorage.getItem("characters"))}/>);
         else return null;
     }
 
     CharactersDetail (props){
-        if(this.state.peopleList.length > 0) {
-            //console.log("Entrei no not null");
-            //console.log(this.state.peopleList);
-            //console.log("Antes do return");
-            return (<ShowCharacter movie={this.state.moviesList} mobile={this.state.mobile} people={this.state.peopleList}/>);
+        if(localStorage.getItem("characters") !== null && localStorage.getItem("movies") !== null) {
+            return (<ShowCharacter movie={JSON.parse(localStorage.getItem("movies"))} mobile={this.state.mobile} people={JSON.parse(localStorage.getItem("characters"))}/>);
         }else {
-            //console.log("Entrei no null");
             return null;
         }
     }

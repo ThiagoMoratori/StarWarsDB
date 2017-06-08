@@ -38,7 +38,6 @@ class ShowMovie extends React.Component{
             if(movieInfo.characters.indexOf(character.url) > -1){return( <Link to={"/people/" + character.url.substring(27)} style={{ textDecoration: 'none' }}><ListItem
             key={character.name.toString()}
             primaryText={character.name}
-            onClick={<ShowCharacter char="Teste"/>}
             /></Link>)}})
 
 
