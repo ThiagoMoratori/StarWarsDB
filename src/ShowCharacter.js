@@ -60,7 +60,7 @@ class ShowCharacter extends React.Component{
 
         //return details from the movie
         return this.state.movie.map((movie)=> {
-            console.log(movie.episode_id)
+            //console.log(movie.episode_id)
             if(characterInfo.films.indexOf(movie.url) > -1){return( <Link to={"/movies/" + movie.episode_id + "/"}><ListItem
                 key={movie.title.toString()}
                 primaryText={movie.title}

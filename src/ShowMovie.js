@@ -55,7 +55,7 @@ class ShowMovie extends React.Component{
     ShowCharactersList(){
 
         //return details from the movie
-        return this.state.people.map((character,i)=> {
+        return this.state.people.map((character)=> {
             //console.log(movieInfo.characters.indexOf(character.url))
             if(movieInfo.characters.indexOf(character.url) > -1){return( <Link to={"/people/" + character.url.substring(27)} style={{ textDecoration: 'none' }}><ListItem
             key={character.name.toString()}

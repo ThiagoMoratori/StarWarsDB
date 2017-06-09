@@ -19,6 +19,7 @@ import ListSpecies from './ListSpecies';
 import ListVehicles from './ListVehicles';
 import ShowMovie from './ShowMovie';
 import SearchBar from './SearchBar';
+import SearchBarResult from './SearchBarResult';
 import axios from 'axios';
 import ShowCharacter from "./ShowCharacter";
 
@@ -39,7 +40,8 @@ class App extends Component {
           speciesList: [],
           vehiclesList: [],
           planetsList: [],
-          nextState: []
+          nextState: [],
+          searchContent: ""
       }
       //console.log(this.state.peopleList);
       if(window.innerWidth < 740) this.setState({mobile:true, drawerOpen:false})
@@ -194,13 +196,37 @@ class App extends Component {
         }
     }
 
+    // MySearch(props){
+    //     if(localStorage.getItem("characters") !== null && localStorage.getItem("movies") !== null && localStorage.getItem("vehicles") !== null && localStorage.getItem("species") !== null && localStorage.getItem("planets") !== null) {
+    //         return (<SearchBar movie={JSON.parse(localStorage.getItem("movies"))} mobile={this.state.mobile} people={JSON.parse(localStorage.getItem("characters"))} vehicle={JSON.parse(localStorage.getItem("vehicles"))} specie={JSON.parse(localStorage.getItem("species"))} planet={JSON.parse(localStorage.getItem("characters"))}/>);
+    //     }else {
+    //         return null;
+    //     }
+    // }
+
+    ShowSearch(){
+        if(localStorage.getItem("characters") !== null && localStorage.getItem("movies") !== null) {
+            return (<SearchBarResult movie={JSON.parse(localStorage.getItem("movies"))}
+                                     people={JSON.parse(localStorage.getItem("characters"))}
+                                     searchContent={this.state.searchContent}/>)
+        }else
+            return null
+    }
+
+    onSearch(e){
+        console.log("onSearch")
+        this.setState({searchContent: e.target.value})
+        console.log(this.state.searchContent);
+    }
+
     render() {
+        //console.log("AppRender");
         return (
             <MuiThemeProvider>
                 <BrowserRouter>
                     <div className="Content-back">
 
-                        <AppBar title={<SearchBar className="SearchBarStyle"/>} onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555', position:"fixed"}}/>
+                        <AppBar title={<SearchBar className="SearchBarStyle" onSearch={this.onSearch.bind(this)}/>} onLeftIconButtonTouchTap={this.onButtonClick.bind(this)} style={{backgroundColor:'#555', position:"fixed"}}/>
                         <Drawer
                             width={200}
                             open={this.state.drawerOpen}
@@ -223,7 +249,7 @@ class App extends Component {
                             <Route exact path="/vehicles" render={this.MyListVehicles.bind(this)}/>
                             <Route exact path="/species" render={this.MyListSpecies.bind(this)}/>
                             <Route exact path="/planets" render={this.MyListPlanets.bind(this)}/>
-                            <Route path="/search"/>
+                            <Route exact path="/search" render={this.ShowSearch.bind(this)}/>
                         </Paper>
 
 
